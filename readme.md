@@ -1,4 +1,4 @@
-#Python aDB
+# Python aDB
 
 This application simulates the insert,delete and select statement of SQL Query. Only simple select statement is supported with order by clause and only one condition using logical operator
 
