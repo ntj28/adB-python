@@ -23,7 +23,7 @@ import time
 
 
 pd.set_option('display.width', None)
-pd.set_option('display.max_rows', None)
+#pd.set_option('display.max_rows', None)
 
 
 class MyErrorListener( ErrorListener ):
