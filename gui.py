@@ -4,8 +4,6 @@ import tkinter as tk
 from tkinter import filedialog
 import sys 
 from tkinter import * 
-
-
 from antlr4 import *
 from SQLiteLexer import SQLiteLexer
 from SQLiteParser import SQLiteParser
