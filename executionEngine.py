@@ -332,7 +332,7 @@ def insertDataTypeChecker(table,columns,values):
 				if len(value) > 50:
 					raise Exception('must be of 50 charcaters or less')
 			elif dataTypeChecker(columns[counter]) == 'date':
-				datetime.datetime.strptime(value, '%Y-%m-%d')
+				datetime.datetime.strptime(value.strip(), '%Y-%m-%d')
 			elif dataTypeChecker(columns[counter]) == 'enum':
 				values = ['1st','2nd','Sum']
 				if not (value in values):
