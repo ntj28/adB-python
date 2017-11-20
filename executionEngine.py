@@ -116,7 +116,7 @@ def selectQuery(tableName,columns,whereClause,orderby):
 									raise Exception('invalid format')
 							tableData= tableData[tableData[whereClause[1]] == newStr]#.head()
 							print(tableData[columns].replace(np.nan, '', regex=True))
-				elif dataTypeChecker(whereClause[1])== 'date':
+				elif dataTypeChecker(whereClause[1])== 'date' or  dataTypeChecker(whereClause[1])== 'time':
 					tableData= tableData[tableData[whereClause[1]] == newStr]#.head()
 					print(tableData[columns].replace(np.nan, '', regex=True))
 				else:
