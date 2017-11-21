@@ -339,22 +339,42 @@ def insertDataTypeChecker(table,columns,values):
 	if len(columns) == 0 :
 		columns = getColumns(table)
 	counter =-1
-	try:
 
-		
+	cno=''
+	semester=''
+	acadyear=''
+	section=''
+	try:
 
 		for value in values:
 			counter = counter + 1
 			if dataTypeChecker(columns[counter]) == 'int':
-				int(value)
+				int(value)			
 			elif dataTypeChecker(columns[counter]) == 'varchar':
 				if len(value) > 50:
 					raise Exception('must be of 50 charcaters or less')
+
+				if (columns[counter]=='CNo' and table=='COURSE'):
+
+					tableData = evaluateExpression.setData(table,[],True)
+					# tableData= tableData[tableData[columns[counter]].astype(float) == int(value)]
+					tableData= tableData[tableData[columns[counter]] == value]#.head()
+					cno=value
+					if(tableData.shape[0]>0):
+						raise Exception('CNo already exists.')
+				if (columns[counter]=='Semester'):
+					semester=value
+				if (columns[counter]=='AcadYear'):
+					acadyear=value
+				if (columns[counter]=='Section'):
+					section=value
+
 			elif dataTypeChecker(columns[counter]) == 'date':
 				datetime.datetime.strptime(value.strip(), '%Y-%m-%d')
 			elif dataTypeChecker(columns[counter]) == 'enum':
 				values = ['1st','2nd','Sum']
-				if not (value in values):
+				value= value.strip()
+				if not (value in values):					
 					raise Exception('Acceptable values are { 1st, 2nd , Sum }' )
 
 
@@ -373,22 +393,37 @@ def insertDataTypeChecker(table,columns,values):
 						else:
 							if len(str(tok2)) != 5:
 								raise Exception('invalid format')
+					tableData = evaluateExpression.setData(table,[],True)
+					tableData= tableData[tableData[columns[counter]] == value]#.head()
+					# print('\nNumber of rows returned: ' + str(tableData.shape[0]))
+					if(tableData.shape[0]>0):
+						raise Exception('StudNo already exists.')
+
+					# print(tableData[columns].replace(np.nan, '', regex=True))
 				else:
 					raise Exception('invalid format')
+		# if (table=='COURSEOFFERING'):
 
-	except Exception as error:		
-		if dataTypeChecker(columns[counter]) == 'int':
-			print("value { "+ value +" } must be of  { int } format for the column { "+ columns[counter] +" } ")
-		elif dataTypeChecker(columns[counter]) == 'varchar':
-			print ('value {' + value + ' } must be 50 characters or less')
-		elif dataTypeChecker(columns[counter])  == 'date':
-			print('value {' + value + ' } must be in { YYYY-MM-DD } format')
-		elif dataTypeChecker(columns[counter])  == 'time':
-			print('value { ' + value + ' } must be in { H:M } format')
-		elif dataTypeChecker(columns[counter])  == 'id':
-			print('Student Number value { ' + value + ' } must be in { YYYY-XXXXX } format')
-		elif dataTypeChecker(columns[counter])  == 'enum':
-			print('Acceptable values are { 1st, 2nd , Sum }' )
+
+	except Exception as error:
+		print(error)
+		if(str(error)=='StudNo already exists.'):
+			print(error)
+		elif(str(error)=='CNo already exists.'):
+			print(error)
+		else:
+			if dataTypeChecker(columns[counter]) == 'int':
+				print("value { "+ value +" } must be of  { int } format for the column { "+ columns[counter] +" } ")
+			elif dataTypeChecker(columns[counter]) == 'varchar':
+				print ('value {' + value + ' } must be 50 characters or less')
+			elif dataTypeChecker(columns[counter])  == 'date':
+				print('value {' + value + ' } must be in { YYYY-MM-DD } format')
+			elif dataTypeChecker(columns[counter])  == 'time':
+				print('value { ' + value + ' } must be in { H:M } format')
+			elif dataTypeChecker(columns[counter])  == 'id':
+				print('Student Number value { ' + value + ' } must be in { YYYY-XXXXX } format')
+			elif dataTypeChecker(columns[counter])  == 'enum':
+				print('Acceptable values are { 1st, 2nd , Sum }' )
 
 def insertQuery(table,columns, values):
 	tableData = evaluateExpression.setData(table,[],True)
