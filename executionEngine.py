@@ -31,7 +31,7 @@ def dataTypeChecker(column):
 	dataType['Semester'] = 'varchar'	
 	dataType['AcadYear'] = 'varchar'	
 	dataType['Section'] = 'varchar'	
-	dataType['Time'] = 'time'	
+	dataType['Time'] = 'varchar'	
 	dataType['MaxStud'] = 'int'
 	typeData = dataType[column]
 
