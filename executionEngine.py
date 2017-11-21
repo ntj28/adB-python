@@ -98,9 +98,26 @@ def selectQuery(tableName,columns,whereClause,orderby):
 				elif dataTypeChecker(whereClause[1]) == 'varchar':
 					if len(newStr) > 50 :
 						print('values must be less than 50 characters')
-					else:					
-						tableData= tableData[tableData[whereClause[1]] == newStr]#.head()
-						print(tableData[columns].replace(np.nan, '', regex=True))
+					else:
+						if '-' in newStr:
+							tokens = newStr.split('-')
+							if len(tokens) != 2 :
+								raise Exception('invalid format')
+							else :
+								tok1 = int(tokens[0])
+								tok2 = int(tokens[1])
+								if len(str(tok1)) != 4:
+									raise Exception('invalid format')
+								else:
+									if len(str(tok2)) != 5:
+										raise Exception('invalid format')
+								validateTime(tok1)
+								validateTime(tok2)
+								tableData= tableData[tableData[whereClause[1]] == newStr]#.head()
+								print(tableData[columns].replace(np.nan, '', regex=True))
+						else:						
+							tableData= tableData[tableData[whereClause[1]] == newStr]#.head()
+							print(tableData[columns].replace(np.nan, '', regex=True))
 				elif dataTypeChecker(whereClause[1]) == 'id':
 					if '-' in newStr:
 						tokens = newStr.split('-')
