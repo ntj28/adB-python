@@ -102,11 +102,30 @@ def executeQuery():
             print("error : " + str(error))
 
 
+def onFrameConfigure(canvas):
+    '''Reset the scroll region to encompass the inner frame'''
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+
 def display_results_window(resultsTable):
     window = tk.Toplevel(root)
+    window.minsize(height=500,width=900)
+    canvas = tk.Canvas(window,width="200",height="200", borderwidth=0, background="#ffffff")
+    myframe = tk.Frame(canvas, relief=GROOVE, width=200, height=200, bd=1)
+    vsb = tk.Scrollbar(window, orient="vertical", command=canvas.yview)
+    hsb = tk.Scrollbar(window, orient="horizontal", command=canvas.xview)
+    canvas.configure(yscrollcommand=vsb.set)
+    canvas.configure(xscrollcommand=hsb.set)
 
-    myframe = Frame(window, relief=GROOVE, width=50, height=100, bd=1)
-    myframe.pack(side=LEFT)
+    hsb.pack(side="bottom",fill="x")
+    vsb.pack(side="right", fill="y")
+    canvas.pack(side="left", fill="both", expand=True)
+    canvas.create_window((4, 4), window=myframe, anchor="nw")
+
+    myframe.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
+
+    # myframe = Frame(window, relief=GROOVE, width=50, height=100, bd=1)
+    # myframe.pack(side=LEFT)
 
     rows = []
 
