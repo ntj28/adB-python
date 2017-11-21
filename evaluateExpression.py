@@ -58,14 +58,14 @@ def evaluateQuery(query):
 
 	 
 	
-	if query[0] == 'select':		
+	if query[0].lower() == 'select':		
 		selectQuery(query)
 
 
-	elif query[0] == 'insert':
+	elif query[0].lower() == 'insert':
 		insertQuery(query)
 
-	elif query[0] == 'delete':
+	elif query[0].lower() == 'delete':
 		deleteQuery(query)
 		
 
