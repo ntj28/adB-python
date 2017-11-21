@@ -21,6 +21,7 @@ import datetime
 import pandas as pd
 import time
 
+
 pd.set_option('display.width', None)
 #pd.set_option('display.max_rows', None)
 
@@ -98,63 +99,16 @@ def executeQuery():
                     tokenArray.append(data) 
 
             print(tokenArray)
-            resultsTable = evaluateExpression.evaluateQuery(tokenArray)
+            evaluateExpression.evaluateQuery(tokenArray)
 
             print("\n--- execution time in seconds : %s ---" % (time.time() - start_time))
+                             
 
-            print("\n additional results:")
-
-
-            display_results_window(resultsTable)
 
 
         except Exception as error:
             print("error : "+str(error))
 
-def display_results_window(resultsTable):
-    window = tk.Toplevel(root)
-
-    myframe = Frame(window, relief=GROOVE, width=50, height=100, bd=1)
-    myframe.pack(side=LEFT)
-
-    rows = []
-
-    cols = []
-
-    for index, obj in enumerate(resultsTable):
-
-        e = Entry(myframe, relief=RIDGE, fg="white", bd="5", bg="green")
-        e.grid(row=0, column=index, sticky=NSEW)
-        e.insert(END, '%s' % (obj))
-        cols.append(e)
-
-    rows.append(cols)
-
-
-    for index, obj in enumerate(resultsTable):
-        cols = []
-
-        for idx, something in enumerate(resultsTable[obj]):
-
-            e = Entry(myframe, relief=RIDGE)
-            e.grid(row=idx+1, column=index, sticky=NSEW)
-
-            if something != something:
-                something = ''
-
-
-            e.insert(END, '%s' % (something))
-            cols.append(e)
-
-
-            if idx > 40:
-                e = Entry(myframe, relief=RIDGE)
-                e.grid(row=idx+1, column=index, sticky=NSEW)
-                e.insert(END, 'too many to display')
-                cols.append(e)
-                break
-            else:
-                rows.append(cols)
 
 def center(toplevel):
     toplevel.update_idletasks()
@@ -234,15 +188,14 @@ def displayTable(optionSelected):
     start_time = time.time()
     tableData = evaluateExpression.setData(optionSelected,[],True)
     if outputQuery.index("end") != 0:
-
+               
                 outputQuery.configure(state='normal')
                 outputQuery.delete(1.0, 'end')
                 outputQuery.configure(state='disabled')
-
+        
     print(tableData.replace(np.nan, '', regex=True))
     print("\n--- execution time in seconds : %s ---" % (time.time() - start_time))
-    display_results_window(tableData)
-
+   
 
 
 
@@ -291,6 +244,8 @@ backupButton = Button( text='Create Backup', command=backup)
 backupButton.place(x = 900, y =680 , width=350, height=25)
 
 
+
+
 def func(event):
     executeQuery()
 root.bind('<Return>', func)
@@ -302,8 +257,8 @@ class PrintToT1(object):
 	 	outputQuery.insert(END, s)
 	 	outputQuery.configure(state='disabled')
 
-sys.stdout = PrintToT1()
+sys.stdout = PrintToT1() 
 
 
 
-mainloop()
+mainloop() 
