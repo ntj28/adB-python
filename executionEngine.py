@@ -109,7 +109,7 @@ def selectQuery(tableName,columns,whereClause,orderby):
 								if len(str(tok1)) != 4:
 									raise Exception('invalid format')
 								else:
-									if len(str(tok2)) != 5:
+									if len(str(tok2)) != 4:
 										raise Exception('invalid format')
 								validateTime(tok1)
 								validateTime(tok2)
@@ -370,7 +370,21 @@ def insertDataTypeChecker(table,columns,values):
 			elif dataTypeChecker(columns[counter]) == 'varchar':
 				if len(value) > 50:
 					raise Exception('must be of 50 charcaters or less')
-
+				else:
+					if '-' in value:
+						tokens = value.split('-')
+						if len(tokens) != 2 :
+							raise Exception('invalid format')
+						else :
+							tok1 = tokens[0]
+							tok2 = tokens[1]
+							if len(str(tok1)) != 4:
+								raise Exception('invalid format')
+							else:
+								if len(str(tok2)) != 4:
+									raise Exception('invalid format')
+							validateTime(tok1)
+							validateTime(tok2)
 				if (columns[counter]=='CNo' and table=='COURSE'):
 
 					tableData = evaluateExpression.setData(table,[],True)
@@ -427,6 +441,8 @@ def insertDataTypeChecker(table,columns,values):
 		if(str(error)=='StudNo already exists.'):
 			print(error)
 		elif(str(error)=='CNo already exists.'):
+			print(error)
+		elif(str(error)=='Incorrect time format, should be H:M'):
 			print(error)
 		else:
 			if dataTypeChecker(columns[counter]) == 'int':
